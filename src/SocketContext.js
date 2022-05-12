@@ -23,16 +23,14 @@ const ContextProvider = ({ children }) => {
           .then((currentStream) => {
             setStream(currentStream);
             myVideo.current.srcObject = currentStream;
-          })
+          });
+
         socket.on('me', (id) => setMe(id));
-        socket.on('calluser', ({ from, name: callerName, signal }) => {
+
+        socket.on('callUser', ({ from, name: callerName, signal }) => {
           setCall({ isReceivingCall: true, from, name: callerName, signal });
         });
       }, []);
-
-      console.log({call})
-
-
 
     const answerCall = () => {
         setCallAccepted(true);
@@ -41,7 +39,7 @@ const ContextProvider = ({ children }) => {
 
         //once we recieve a signal --> establish connection --> connect
         peer.on('signal', (data) => {
-            socket.emit('answercall', {signal: data, to: call.from})
+            socket.emit('answerCall', { signal: data, to: call.from})
         });
 
         //set up the other persons stream that we will connect to the iFrame
@@ -61,7 +59,7 @@ const ContextProvider = ({ children }) => {
 
         //once we recieve a signal --> establish connection --> connect
         peer.on('signal', (data) => {
-            socket.emit('calluser', { userToCall: id, signalData: data, from: me, name})
+            socket.emit('callUser', { userToCall: id, signalData: data, from: me, name})
         });
 
         //set up the other persons stream that we will connect to the iFrame
@@ -69,7 +67,7 @@ const ContextProvider = ({ children }) => {
             userVideo.current.srcObject = currentStream;
         });
 
-        socket.on('callaccepted', (signal) => {
+        socket.on('callAccepted', (signal) => {
             setCallAccepted(true);
             peer.signal = signal;
         });

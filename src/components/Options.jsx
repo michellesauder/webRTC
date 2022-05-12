@@ -14,7 +14,7 @@ const Options = ({ children }) => {
         <form noValidate autoComplete="off">
           <Grid container>
             <Grid item xs={12} md={6}>
-              <Typography guttonBottom variant="h6">
+              <Typography variant="h6">
                 Account Info
               </Typography>
               <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth/>
@@ -23,7 +23,7 @@ const Options = ({ children }) => {
               </CopyToClipboard>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography guttonBottom variant="h6">
+              <Typography variant="h6">
                 Make a call
               </Typography>
               <TextField label="ID to Call" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth/>
