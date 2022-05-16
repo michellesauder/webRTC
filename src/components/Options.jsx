@@ -9,8 +9,9 @@ const Options = ({ children }) => {
     const [idToCall, setIdToCall] = useState('');
 
   return (
-    <Container>
-      <Paper elevation={10}>
+    <Container
+    >
+      <Paper elevation={10} style={{display: 'flex', justifyContent: 'center'}}>
         <form noValidate autoComplete="off">
           <Grid container>
             <Grid item xs={12} md={6}>

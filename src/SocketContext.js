@@ -7,7 +7,7 @@ const SocketContext = createContext();
 const socket = io('http://localhost:5000');
 
 const ContextProvider = ({ children }) => {
-    const [stream, setStream] = useState(null);
+    const [stream, setStream] = useState();
     const [me, setMe] = useState('');
     const [call, setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
@@ -24,19 +24,16 @@ const ContextProvider = ({ children }) => {
             setStream(currentStream);
             myVideo.current.srcObject = currentStream;
           });
-
         socket.on('me', (id) => setMe(id));
-
         socket.on('callUser', ({ from, name: callerName, signal }) => {
+          console.log({callerName, signal})
           setCall({ isReceivingCall: true, from, name: callerName, signal });
         });
       }, []);
 
     const answerCall = () => {
         setCallAccepted(true);
-
         const peer = new Peer({ initiator: false, trickle: false, stream })
-
         //once we recieve a signal --> establish connection --> connect
         peer.on('signal', (data) => {
             socket.emit('answerCall', { signal: data, to: call.from})
