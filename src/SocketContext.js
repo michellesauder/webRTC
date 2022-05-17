@@ -19,12 +19,15 @@ const ContextProvider = ({ children }) => {
     const connectionRef = useRef();
 
     useEffect(() => {
+        //get permissions to use the user media
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
           .then((currentStream) => {
             setStream(currentStream);
             myVideo.current.srcObject = currentStream;
           });
+        // listen for a specific action --> me
         socket.on('me', (id) => setMe(id));
+        
         socket.on('callUser', ({ from, name: callerName, signal }) => {
           console.log({callerName, signal})
           setCall({ isReceivingCall: true, from, name: callerName, signal });
